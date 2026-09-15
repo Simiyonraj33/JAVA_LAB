@@ -1,0 +1,136 @@
+╔══════════════════════════════════════════════════╗
+║                GENERICS IN JAVA                 ║
+║   Basic → Multiple Types → Bounded → Methods →  ║
+║                    Wildcards                    ║
+╠══════════════════════════════════════════════════╣
+║ 1️⃣ Basic Generic Class                          ║
+║   class Box<T> {                                 ║
+║       T data;                                    ║
+║       void set(T d) { data = d; }                ║
+║       T get() { return data; }                   ║
+║   }                                              ║
+║   Box<Integer> b = new Box<>();                  ║
+║   b.set(10);                                     ║
+║                                                  ║
+║ 2️⃣ Multiple Type Parameters                      ║
+║   class Pair<A, B> { A first; B second; }        ║
+║   Pair<String, Integer> p =                      ║
+║       new Pair<>("Age", 25);                     ║
+║                                                  ║
+║ 3️⃣ Bounded Type Parameter                        ║
+║   class NumberBox<T extends Number> {            ║
+║       T num;                                     ║
+║   }                                              ║
+║   NumberBox<Double> ok = new NumberBox<>();      ║
+║   // NumberBox<String> ❌ Not allowed            ║
+║                                                  ║
+║ 4️⃣ Generic Method                                ║
+║   class Demo {                                   ║
+║       <T> void show(T x) { System.out.println(x);}║
+║   }                                              ║
+║   new Demo().show("Hi");                         ║
+║   new Demo().show(20);                           ║
+║                                                  ║
+║ 5️⃣ Static Generic Method                         ║
+║   class Util {                                   ║
+║       static <T> void print(T v) {               ║
+║           System.out.println(v);                 ║
+║       }                                          ║
+║   }                                              ║
+║   Util.print(99.9);                              ║
+║                                                  ║
+║ 6️⃣ Wildcards in Generics                         ║
+║   ?  = Unknown type                              ║
+║   ? extends Type → Upper bound (read only)       ║
+║   ? super Type   → Lower bound (write allowed)   ║
+║                                                   
+║   Examples:                                       ║
+║   List<?> l1;               // any type           ║
+║   List<? extends Number> l2;// Integer,Double...  ║
+║   List<? super Integer> l3; // Integer & Parents  ║
+║                                                  ║
+╚══════════════════════════════════════════════════╝
+
+
+
+
+
+
+
+
+
+
+
+// Generic Class with Type T
+class Box<T> {
+    private T value;
+
+    // Generic Constructor
+    public Box(T value) {
+        this.value = value;
+    }
+
+    public void setValue(T value) {
+        this.value = value;
+    }
+
+    public T getValue() {
+        return value;
+    }
+
+    // Normal Generic Method
+    public <U> void showPair(U secondValue) {
+        System.out.println("Box Value: " + value + ", Second Value: " + secondValue);
+    }
+
+    // STATIC GENERIC METHOD
+    public static <X> void display(X item) {
+        System.out.println("Static Generic Method prints: " + item);
+    }
+}
+
+// A class to demonstrate Wildcards
+class PrintService {
+    
+    // Method using Wildcard: unknown type (?)
+    public void printAnyBox(Box<?> box) {
+        System.out.println("Wildcard Box Value: " + box.getValue());
+    }
+
+    // Method using Upper Bound Wildcard (? extends Number)
+    // Accepts Integer, Float, Double etc.
+    public void printNumber(Box<? extends Number> box) {
+        Number n = box.getValue();
+        System.out.println("Number from NumberBox: " + n);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Creating Boxes
+        Box<Integer> intBox = new Box<>(100);
+        Box<String> strBox = new Box<>("Hello Java Generics");
+        Box<Double> doubleBox = new Box<>(45.78);
+
+        // Using normal generic method
+        intBox.showPair("Score");
+        strBox.showPair(2025);
+
+        // Using Static Generic Method
+        Box.display("Static Call");
+        Box.display(12345);
+
+        // Wildcard Usage
+        PrintService ps = new PrintService();
+        ps.printAnyBox(strBox);   // any type works
+        ps.printAnyBox(intBox);
+
+        // Upper bound wildcard -> only Numbers allowed
+        ps.printNumber(intBox);
+        ps.printNumber(doubleBox);
+
+        // Compile Error ❌ if try:
+        // ps.printNumber(strBox); // Not allowed because String is not a Number
+    }
+}

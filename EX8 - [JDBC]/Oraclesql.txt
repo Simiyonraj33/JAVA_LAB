@@ -1,0 +1,35 @@
+DROP TABLE students;
+
+CREATE TABLE students (
+rollno NUMBER PRIMARY KEY,
+name VARCHAR2(100),
+mark1 NUMBER,
+mark2 NUMBER,
+mark3 NUMBER,
+mark4 NUMBER,
+mark5 NUMBER,
+average NUMBER(5,2)
+);
+
+
+
+-- Turn on column headings
+SET HEADING ON;
+
+-- Adjust how wide the lines can go on screen
+SET LINESIZE 150;
+
+-- Number of lines shown on a single page
+SET PAGESIZE 40;
+
+-- Formatting each column neatly
+COLUMN rollno   FORMAT 9999          HEADING "ROLLNO";
+COLUMN name     FORMAT A20           HEADING "NAME";
+COLUMN mark1    FORMAT 999           HEADING "MARK1";
+COLUMN mark2    FORMAT 999           HEADING "MARK2";
+COLUMN mark3    FORMAT 999           HEADING "MARK3";
+COLUMN mark4    FORMAT 999           HEADING "MARK4";
+COLUMN mark5    FORMAT 999           HEADING "MARK5";
+COLUMN average  FORMAT 999.99        HEADING "AVERAGE";
+
+
